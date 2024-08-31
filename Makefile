@@ -8,7 +8,10 @@ upgrade:
 	npx hardhat run scripts/upgrade.ts --network dbcTestnet
 
 verify:
-	npx hardhat verify --network dbcTestnet  0xb976c5aCD4328C614A558FE1F67f0119b6b09441
+	npx hardhat verify --network dbcTestnet  0x28F5a47d69B570182d46e98bF1743A3D3053c53d
+
+
+
 
 
 

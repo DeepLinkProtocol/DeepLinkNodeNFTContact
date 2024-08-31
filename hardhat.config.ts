@@ -83,7 +83,4 @@ const config: HardhatUserConfig = {
   }
 };
 
-// proxy:0x54d6F84B8337a897238C0C07C2ebbf74fcb087BC
-// logic:0x8a26580DA88DB2E88c48E5694B5F0eF634855C4D
-
 export default config;

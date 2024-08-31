@@ -1,7 +1,7 @@
 
 import dotenv from 'dotenv';
 import {bigint} from "hardhat/internal/core/params/argumentTypes";
-const { ethers} = require("hardhat");
+const {ethers} = require("hardhat");
 dotenv.config();
 
 async function main() {
@@ -10,4 +10,7 @@ async function main() {
     console.log("deployed to:", upgrade.target);
 }
 
-main();
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});

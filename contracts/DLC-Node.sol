@@ -6,10 +6,8 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 
-contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable {
+contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     uint256 private _nextTokenId;
-    uint256 private TOKEN_CAP;
-
 
     struct TokenIdRange {
         uint256 startTokenId;
@@ -19,10 +17,12 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable {
 
     mapping(uint16 => TokenIdRange) public levelNumber2TokenIdRange;
 
+    event mintedToken(address indexed to,uint256 startTokenId, uint256 endTokenId);
+
+
     function initialize(address initialOwner) initializer public {
         __ERC721_init("DLC-Node", "DLCN");
         __Ownable_init(initialOwner);
-        TOKEN_CAP = 120_000;
         setLevel2TokenIdRange();
     }
 
@@ -40,16 +40,19 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable {
     }
 
 
-    function safeBatchMint(address to, uint16 level, uint256 amount) public onlyOwner {
+    function safeBatchMint(address to, uint16 level, uint256 amount) public onlyOwner{
         require(level<=10 && level>=1, "Level should be between 1 and 10");
         TokenIdRange memory levelTokenIdRange = levelNumber2TokenIdRange[level];
         require(levelTokenIdRange.nextTokenId-1 + amount <= levelTokenIdRange.endTokenId, "Token range not available");
 
+        uint256 startTokenId = levelTokenIdRange.nextTokenId;
         for (uint256 i = 0; i < amount; i++) {
             uint256 tokenId = levelTokenIdRange.nextTokenId++;
             _safeMint(to, tokenId);
         }
         levelNumber2TokenIdRange[level] = levelTokenIdRange;
+        uint256 endTokenId = levelTokenIdRange.nextTokenId-1;
+        emit mintedToken(to, startTokenId, endTokenId);
     }
 
     function _baseURI() internal pure override returns (string memory) {
@@ -69,5 +72,9 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable {
         }
 
         return string(abi.encodePacked(_baseURI(), Strings.toString(levelNumber), ".json"));
+    }
+
+    function version() public pure returns (uint256) {
+        return 1;
     }
 }
