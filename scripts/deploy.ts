@@ -6,7 +6,12 @@ dotenv.config();
 
 async function main() {
     const contractFactory = await ethers.getContractFactory("DLCNode");
-    const upgrade = await upgrades.deployProxy(contractFactory , [process.env.OWNER], { initializer: 'initialize' });
+    const upgrade = await upgrades.deployProxy(
+        contractFactory ,
+        [process.env.OWNER],
+        { initializer: 'initialize' },
+        { txOverrides: {gasLimit: 300000}}
+    );
     console.log("deployed to:", upgrade.target);
 }
 

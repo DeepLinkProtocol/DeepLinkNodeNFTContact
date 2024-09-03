@@ -5,10 +5,12 @@ deploy:
 	npx hardhat run scripts/deploy.ts --network dbcTestnet
 
 upgrade:
-	npx hardhat run scripts/upgrade.ts --network dbcTestnet
+	DEBUG='@openzeppelin:*' npx hardhat run scripts/upgrade.ts --network dbcTestnet
 
 verify:
-	npx hardhat verify --network dbcTestnet  0x28F5a47d69B570182d46e98bF1743A3D3053c53d
+	npx hardhat verify --network dbcTestnet  0x71B0e69E6b15893944776cFd2026Fa32e395a333
+
+
 
 
 

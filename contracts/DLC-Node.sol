@@ -56,7 +56,7 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://lime-top-fly-217.mypinata.cloud/ipfs/QmNkXmWPEweDMr79pe1YGLfPYJCHoBzwY9GafB92NDbSwy/";
+        return "https://gateway.pinata.cloud/ipfs/QmcGsAPn5ft2bRT3De3vBLgeX3N2MbiZ1dJqjWtxJ7UQD7/";
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
