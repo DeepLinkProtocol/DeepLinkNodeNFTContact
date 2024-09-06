@@ -8,7 +8,8 @@ upgrade:
 	DEBUG='@openzeppelin:*' npx hardhat run scripts/upgrade.ts --network dbcTestnet
 
 verify:
-	npx hardhat verify --network dbcTestnet  0x71B0e69E6b15893944776cFd2026Fa32e395a333
+	npx hardhat verify --network dbcTestnet  0x2d8c44616e04B7F131bEee1e9b878765356F56f9
+
 
 
 

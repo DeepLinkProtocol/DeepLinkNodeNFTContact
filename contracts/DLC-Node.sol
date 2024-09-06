@@ -8,6 +8,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     uint256 private _nextTokenId;
+    uint256 private TOKEN_CAP;
 
     struct TokenIdRange {
         uint256 startTokenId;
@@ -23,6 +24,7 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     function initialize(address initialOwner) initializer public {
         __ERC721_init("DLC-Node", "DLCN");
         __Ownable_init(initialOwner);
+        TOKEN_CAP = 120_000;
         setLevel2TokenIdRange();
     }
 
