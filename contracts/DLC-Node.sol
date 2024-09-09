@@ -58,7 +58,7 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://gateway.pinata.cloud/ipfs/QmcGsAPn5ft2bRT3De3vBLgeX3N2MbiZ1dJqjWtxJ7UQD7/";
+        return "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/master/resource/DLC-node-metadata/";
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -77,6 +77,6 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     }
 
     function version() public pure returns (uint256) {
-        return 1;
+        return 0;
     }
 }
