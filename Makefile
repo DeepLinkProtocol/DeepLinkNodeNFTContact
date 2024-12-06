@@ -8,9 +8,17 @@ upgrade:
 	DEBUG='@openzeppelin:*' npx hardhat run scripts/upgrade.ts --network dbcTestnet
 
 verify:
-	npx hardhat verify --network dbcTestnet  0x2d8c44616e04B7F131bEee1e9b878765356F56f9
+	source .env && npx hardhat verify --network dbcTestnet  $PROXY_CONTRACT
 
 
+deploy-bsc-testnet:
+	npx hardhat run scripts/deploy.ts --network bscTestnet
+
+upgrade-bsc-testnet:
+	DEBUG='@openzeppelin:*' npx hardhat run scripts/upgrade.ts --network bscTestnet
+
+verify-bsc-testnet:
+	source .env && npx hardhat verify --network bscTestnet  $PROXY_CONTRACT
 
 
 

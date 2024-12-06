@@ -6,7 +6,7 @@ async function main() {
     const contractFactory = await ethers.getContractFactory("DLCNode");
 
     const r = await upgrades.forceImport(
-        "0x2d8c44616e04B7F131bEee1e9b878765356F56f9",
+        "0x2640d3a6EFa9615EAb72c508881f2B1513A47a14",
         contractFactory
     )
     r.waitForDeployment()

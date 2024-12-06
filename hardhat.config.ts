@@ -52,7 +52,7 @@ const config: HardhatUserConfig = {
       // An API key needs to be written as the hardhat-verify plugin will require it, and the verification will fail if it is not provided.
       // The current bitlayer browser has not yet enabled API key verification, so you can write any random string for now.
       bitlayertestnet: "1234",
-      bscTestnet: 'UQVW6HJ4ZV4U75BE2PKIGT7IT14ASHK3G1'
+      bscTestnet: process.env.BSC_TESTNET_API_KEY
     },
     customChains: [
       {
@@ -67,8 +67,8 @@ const config: HardhatUserConfig = {
         network: "dbcTestnet",
         chainId: 19850818,
         urls: {
-          apiURL: "https://blockscout-testnet.dbcscan.io/api",
-          browserURL: "https://blockscout-testnet.dbcscan.io",
+          apiURL: "https://test.dbcscan.io/api",
+          browserURL: "https://test.dbcscan.io",
         },
       },
       {
