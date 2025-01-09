@@ -19,13 +19,18 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     mapping(uint16 => TokenIdRange) public levelNumber2TokenIdRange;
 
     event mintedToken(address indexed to,uint256 startTokenId, uint256 endTokenId);
-
+    mapping(address => mapping(uint16 => bool)) public minter2MintLevel;
 
     function initialize(address initialOwner) initializer public {
         __ERC721_init("DLC-Node", "DLCN");
         __Ownable_init(initialOwner);
         TOKEN_CAP = 120_000;
         setLevel2TokenIdRange();
+    }
+
+    modifier onlyMinter2MintLevel(uint16 level){
+        require(minter2MintLevel[msg.sender][level], "Not authorized to mint this level");
+        _;
     }
 
     function setLevel2TokenIdRange() internal onlyOwner {
@@ -42,7 +47,7 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
     }
 
 
-    function safeBatchMint(address to, uint16 level, uint256 amount) public onlyOwner{
+    function safeBatchMint(address to, uint16 level, uint256 amount) public onlyMinter2MintLevel(level){
         require(level<=10 && level>=1, "Level should be between 1 and 10");
         TokenIdRange memory levelTokenIdRange = levelNumber2TokenIdRange[level];
         require(levelTokenIdRange.nextTokenId-1 + amount <= levelTokenIdRange.endTokenId, "Token range not available");
@@ -74,6 +79,22 @@ contract DLCNode is Initializable, ERC721Upgradeable, OwnableUpgradeable  {
         }
 
         return string(abi.encodePacked(_baseURI(), Strings.toString(levelNumber), ".json"));
+    }
+
+    function addMinter2MintLevel(address minter, uint16[] calldata levels) external onlyOwner {
+        for (uint256 i = 0; i < levels.length; i++) {
+            uint16 level = levels[i];
+            require(level<=10 && level>=1, "Level should be between 1 and 10");
+            minter2MintLevel[minter][level]= true;
+        }
+    }
+
+    function removeMintLevelOfMinter(address minter,uint16[] calldata levels) external onlyOwner {
+        for (uint256 i = 0; i < levels.length; i++) {
+            uint16 level = levels[i];
+            require(level<=10 && level>=1, "Level should be between 1 and 10");
+            minter2MintLevel[minter][level] = false;
+        }
     }
 
     function version() public pure returns (uint256) {

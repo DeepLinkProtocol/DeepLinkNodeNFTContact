@@ -1,22 +1,19 @@
 
 import dotenv from 'dotenv';
-import {bigint} from "hardhat/internal/core/params/argumentTypes";
 const {ethers} = require("hardhat");
 dotenv.config();
 
 async function main() {
+    console.log("Deploying DLCNode...");
+    console.log("owner: ", process.env.OWNER);
+
     const contractFactory = await ethers.getContractFactory("DLCNode");
     const upgrade = await upgrades.deployProxy(
-        contractFactory ,
+        contractFactory,
         [process.env.OWNER],
-        { initializer: 'initialize' },
-        { txOverrides: {gasLimit: 300000}}
+        { initializer: 'initialize' }
     );
     console.log("deployed to:", upgrade.target);
-
 }
 
-main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-});
+main()

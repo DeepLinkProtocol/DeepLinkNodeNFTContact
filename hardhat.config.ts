@@ -10,11 +10,26 @@ require('@openzeppelin/hardhat-upgrades');
 
 const config: HardhatUserConfig = {
   solidity: "0.8.20",
+  settings: {
+    optimizer: {
+      enabled: true,
+      runs: 200,
+    },
+  },
+  paths: {
+    artifacts: "./artifacts",
+    cache: "./cache",
+    sources: "./contracts",
+    tests: "./test",
+  },
   sourcify: {
     // Enable Sourcify verification by default
     enabled: true,
   },
   networks: {
+    hardhat: {
+      loggingEnabled: true, // 启用日志
+    },
     bitlayertestnet: {
       url: 'https://testnet-rpc.bitlayer.org',
       chainId: 200810,
@@ -38,9 +53,7 @@ const config: HardhatUserConfig = {
     },
     dbcMainnet: {
       url: 'https://rpc.dbcwallet.io',
-      accounts: {
-        mnemonic: process.env.MNEMONIC || '',
-      },
+      accounts: [process.env.PRIVATE_KEY],
       chainId: 19880818,
       timeout: 600000,
     }
@@ -67,16 +80,16 @@ const config: HardhatUserConfig = {
         network: "dbcTestnet",
         chainId: 19850818,
         urls: {
-          apiURL: "https://test.dbcscan.io/api",
-          browserURL: "https://test.dbcscan.io",
+          apiURL: "https://blockscout-testnet.dbcscan.io/api",
+          browserURL: "https://blockscout-testnet.dbcscan.io",
         },
       },
       {
         network: "dbcMainnet",
         chainId: 19880818,
         urls: {
-          apiURL: "https://blockscout.dbcscan.io/api",
-          browserURL: "https://blockscout.dbcscan.io",
+          apiURL: "https://www.dbcscan.io/api",
+          browserURL: "https://www.dbcscan.io",
         },
       }
     ]
