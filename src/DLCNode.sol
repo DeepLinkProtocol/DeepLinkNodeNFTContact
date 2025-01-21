@@ -95,7 +95,7 @@ contract DLCNode is
 
     function _baseURI() internal pure override returns (string memory) {
         return
-        "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/master/resource/DLC-node-metadata/";
+        "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/foundry/resource/DLC-node-metadata/";
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
