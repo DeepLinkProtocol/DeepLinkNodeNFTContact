@@ -2,4 +2,4 @@
 DeepLink Node NFT Contact
 
 ### dbc mainnet:
-    - contract address: 0x7c270777faae5447e9dcb44159eafb49be1c5ac0
+    - contract address: 0x2e5c9345f199ca282e4f2cc30adbf8e980b3a9a4
