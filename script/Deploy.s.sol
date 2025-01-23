@@ -33,9 +33,7 @@ contract Deploy is Script {
     function deploy() public returns (address proxy, address logic) {
         //        Options memory opts;
 
-        proxy = Upgrades.deployUUPSProxy(
-            "DLCNode.sol:DLCNode", abi.encodeCall(DLCNode.initialize, (msg.sender))
-        );
+        proxy = Upgrades.deployUUPSProxy("DLCNode.sol:DLCNode", abi.encodeCall(DLCNode.initialize, (msg.sender)));
         return (proxy, logic);
     }
 }
