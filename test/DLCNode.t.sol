@@ -93,12 +93,37 @@ contract DLCNodeTest is Test {
         assertEq(amounts[2], 15);
     }
 
+    function testGetBalance1() public {
+        uint256[] memory mintLevels = new uint256[](2);
+        mintLevels[0] = 1;
+        mintLevels[1] = 2;
+
+        uint256[] memory mintAmounts = new uint256[](2);
+        mintAmounts[0] = 100;
+        mintAmounts[1] = 30;
+
+//        dlcNode.batchMint(user1, mintLevels, mintAmounts);
+        dlcNode.mint(user1, 1, 20);
+        dlcNode.mint(user1, 1, 100);
+        dlcNode.mint(user1, 2, 30);
+
+        uint256 queryAmount = 150;
+        (uint256[] memory tokenIds, uint256[] memory amounts) = dlcNode.getBalance(user1, queryAmount);
+
+        assertEq(tokenIds.length, 2);
+        assertEq(amounts.length, 2);
+
+        assertEq(tokenIds[0], 1,"11");
+        assertEq(tokenIds[1], 2,"22");
+
+        assertEq(amounts[0], 120,"33");
+        assertEq(amounts[1], 30,"444");
+    }
+
     function testGetBalanceEmptyAccount() public view {
-        // 查询空账户
         uint256 queryAmount = 10;
         (uint256[] memory tokenIds, uint256[] memory amounts) = dlcNode.getBalance(user2, queryAmount);
 
-        // 验证返回的数组为空
         assertEq(tokenIds.length, 0);
         assertEq(amounts.length, 0);
     }
