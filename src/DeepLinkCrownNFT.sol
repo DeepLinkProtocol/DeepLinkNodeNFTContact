@@ -200,10 +200,10 @@ contract DeepLinkCrownNFT is
     function _setURIConfig() internal {
         versionType2URI[
             VersionType.ProfessionalVersion
-        ] = "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkCrownNFT/main/resource/metadata/1.jpg";
+        ] = "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/crownNFT/resource/metadata/1.json";
         versionType2URI[
             VersionType.TeamVersion
-        ] = "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkCrownNFT/main/resource/metadata/2.jpg";
+        ] = "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/crownNFT/resource/metadata/2.json";
     }
 
     function version() public pure returns (uint256) {
