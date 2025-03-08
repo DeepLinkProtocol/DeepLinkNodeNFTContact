@@ -166,7 +166,16 @@ contract DeepLinkCrownNFT is
         address owner
     ) external view returns (uint256[] memory) {
         uint256 balance = balanceOf(owner);
-        uint256[] memory tokenIds = new uint256[](balance);
+
+        uint256 activeCount;
+        for (uint256 i = 0; i < balance; i++) {
+            uint256 tokenId = tokenOfOwnerByIndex(owner, i);
+            if (block.timestamp < tokenId2NFTInfo[tokenId].expireAtTimestamp) {
+                activeCount++;
+            }
+        }
+
+        uint256[] memory tokenIds = new uint256[](activeCount);
 
         for (uint256 i = 0; i < balance; i++) {
             uint256 tokenId = tokenOfOwnerByIndex(owner, i);
