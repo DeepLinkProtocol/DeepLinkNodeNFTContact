@@ -25,13 +25,7 @@ contract Upgrade is Script {
         console.log("Proxy Address:", proxy);
         address transparentProxy = address(proxy);
 
-        //                Options memory opts;
-        //
-        //                opts.referenceContract = "NFTStakingOld.sol:NFTStaking";
-        //
-        //                Upgrades.validateUpgrade("NFTStaking.sol:NFTStaking", opts);
-
-        Upgrades.upgradeProxy(transparentProxy, "DLCNode.sol:DLCNode", "");
+        Upgrades.upgradeProxy(transparentProxy, "DeepLinkCrownNFT.sol:DeepLinkCrownNFT", "");
 
         vm.stopBroadcast();
     }

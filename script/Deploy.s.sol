@@ -2,14 +2,16 @@
 pragma solidity ^0.8.20;
 
 import {Script} from "forge-std/Script.sol";
-import {DLCNode} from "../src/DLCNode.sol";
+import {DeepLinkCrownNFT} from "../src/DeepLinkCrownNFT.sol";
 import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
 import {Options} from "openzeppelin-foundry-upgrades/Options.sol";
 
 import {console} from "forge-std/Test.sol";
 
 contract Deploy is Script {
+
     function run() external returns (address proxy, address logic) {
+
         string memory privateKeyString = vm.envString("PRIVATE_KEY");
         uint256 deployerPrivateKey;
 
@@ -33,7 +35,9 @@ contract Deploy is Script {
     function deploy() public returns (address proxy, address logic) {
         //        Options memory opts;
 
-        proxy = Upgrades.deployUUPSProxy("DLCNode.sol:DLCNode", abi.encodeCall(DLCNode.initialize, (msg.sender)));
+        proxy = Upgrades.deployUUPSProxy(
+            "DeepLinkCrownNFT.sol:DeepLinkCrownNFT", abi.encodeCall(DeepLinkCrownNFT.initialize, (msg.sender))
+        );
         return (proxy, logic);
     }
 }
