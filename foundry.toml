@@ -13,10 +13,13 @@ solc_version = "0.8.26"
 [etherscan]
 dbc-testnet = { key = "abc", url = "https://rpc-testnet.dbcwallet.io", chain = "19850818" }
 dbc-mainnet = { key = "abc", url = "https://rpc.dbcwallet.io", chain = "19880818" }
+sepolia = { key = "", url = "https://eth-sepolia.g.alchemy.com/v2/FyOo65gXxO7eBO6XepU3r4qAsZWAgRyW", chain = "11155111" }
+bsc-testnet = {key = "${BSC_TESTNET_API_KEY}", url = "https://data-seed-prebsc-1-s1.binance.org:8545", chain = "97"}
 
 [rpc_endpoints]
 dbc-testnet = "https://rpc-testnet.dbcwallet.io"
 dbc-mainnet = "https://rpc.dbcwallet.io"
 bsc-testnet = "https://data-seed-prebsc-1-s3.binance.org:8545"
+sepolia = "https://eth-sepolia.g.alchemy.com/v2/FyOo65gXxO7eBO6XepU3r4qAsZWAgRyW"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
