@@ -9,9 +9,7 @@ import {Options} from "openzeppelin-foundry-upgrades/Options.sol";
 import {console} from "forge-std/Test.sol";
 
 contract Deploy is Script {
-
     function run() external returns (address proxy, address logic) {
-
         string memory privateKeyString = vm.envString("PRIVATE_KEY");
         uint256 deployerPrivateKey;
 

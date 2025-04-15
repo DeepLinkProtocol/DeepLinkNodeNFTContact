@@ -9,11 +9,11 @@ import "@openzeppelin/contracts/utils/math/Math.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 contract OldDeepLinkCrownNFT is
-Initializable,
-ERC721Upgradeable,
-OwnableUpgradeable,
-ERC721EnumerableUpgradeable,
-UUPSUpgradeable
+    Initializable,
+    ERC721Upgradeable,
+    OwnableUpgradeable,
+    ERC721EnumerableUpgradeable,
+    UUPSUpgradeable
 {
     uint256 private constant ONE_MONTH = 30 days;
     uint256 private _nextTokenId;
@@ -66,8 +66,8 @@ UUPSUpgradeable
     }
 
     function safeBatchMint(address to, uint256 amount, VersionType versionType, ExpireTimeType expireTimeType)
-    public
-    onlyMinter2MintLevel(versionType)
+        public
+        onlyMinter2MintLevel(versionType)
     {
         uint256 expireAtTimestamp = _getExpireTime(expireTimeType);
         for (uint256 i = 0; i < amount; i++) {
@@ -93,25 +93,25 @@ UUPSUpgradeable
     }
 
     function _update(address to, uint256 tokenId, address auth)
-    internal
-    override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
-    returns (address)
+        internal
+        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        returns (address)
     {
         return super._update(to, tokenId, auth);
     }
 
     function _increaseBalance(address account, uint128 value)
-    internal
-    override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        internal
+        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
     {
         super._increaseBalance(account, value);
     }
 
     function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
-    returns (bool)
+        public
+        view
+        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        returns (bool)
     {
         return super.supportsInterface(interfaceId);
     }
@@ -146,9 +146,9 @@ UUPSUpgradeable
 
     function _setURIConfig() internal {
         versionType2URI[VersionType.ProfessionalVersion] =
-                    "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkCrownNFT/main/resource/metadata/1.jpg";
+            "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkCrownNFT/main/resource/metadata/1.jpg";
         versionType2URI[VersionType.TeamVersion] =
-                    "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkCrownNFT/main/resource/metadata/2.jpg";
+            "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkCrownNFT/main/resource/metadata/2.jpg";
     }
 
     function version() public pure returns (uint256) {

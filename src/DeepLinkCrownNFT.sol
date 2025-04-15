@@ -43,7 +43,8 @@ contract DeepLinkCrownNFT is
 
     mapping(address => mapping(VersionType => bool)) public minter2MintLevel;
 
-    event mintedToken(address indexed to, uint256 tokenId);
+    event mintedToken(address indexed to, uint256 tokenId, VersionType versionType, ExpireTimeType expireTimeType);
+    event activeToken(address indexed from, uint256 tokenId, uint256 expireAtTimestamp);
 
     function initialize(address initialOwner) public initializer {
         __ERC721_init("DeepLinkCrownNFT", "DLCCNFT");
@@ -59,15 +60,10 @@ contract DeepLinkCrownNFT is
         _disableInitializers();
     }
 
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyOwner {}
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     modifier onlyMinter2MintLevel(VersionType versionType) {
-        require(
-            minter2MintLevel[msg.sender][versionType],
-            "Not authorized to mint this level"
-        );
+        require(minter2MintLevel[msg.sender][versionType], "Not authorized to mint this level");
         _;
     }
 
@@ -77,53 +73,36 @@ contract DeepLinkCrownNFT is
         require(nftInfo.expireAtTimestamp == 0, "can not active again");
         uint256 expireAtTimestamp = _getExpireTime(nftInfo.expireTimeType);
         nftInfo.expireAtTimestamp = expireAtTimestamp;
+        emit activeToken(msg.sender, tokenId, expireAtTimestamp);
     }
 
-    function safeBatchMint(
-        address to,
-        uint256 amount,
-        VersionType versionType,
-        ExpireTimeType expireTimeType
-    ) public onlyMinter2MintLevel(versionType) {
+    function safeBatchMint(address to, uint256 amount, VersionType versionType, ExpireTimeType expireTimeType)
+        public
+        onlyMinter2MintLevel(versionType)
+    {
         for (uint256 i = 0; i < amount; i++) {
             _safeMint(to, _nextTokenId);
-            tokenId2NFTInfo[_nextTokenId] = NFTInfo(
-                versionType,
-                expireTimeType,
-                0
-            );
-            emit mintedToken(to, _nextTokenId);
+            tokenId2NFTInfo[_nextTokenId] = NFTInfo(versionType, expireTimeType, 0);
+            emit mintedToken(to, _nextTokenId, versionType, expireTimeType);
             _nextTokenId++;
         }
     }
 
-    function tokenURI(
-        uint256 tokenId
-    ) public view override returns (string memory) {
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
         _requireOwned(tokenId);
         NFTInfo memory nftInfo = tokenId2NFTInfo[tokenId];
         return versionType2URI[nftInfo.versionType];
     }
 
-    function addMinter2MintLevel(
-        address minter,
-        VersionType versionType
-    ) external onlyOwner {
+    function addMinter2MintLevel(address minter, VersionType versionType) external onlyOwner {
         minter2MintLevel[minter][versionType] = true;
     }
 
-    function removeMintLevelOfMinter(
-        address minter,
-        VersionType versionType
-    ) external onlyOwner {
+    function removeMintLevelOfMinter(address minter, VersionType versionType) external onlyOwner {
         minter2MintLevel[minter][versionType] = false;
     }
 
-    function _update(
-        address to,
-        uint256 tokenId,
-        address auth
-    )
+    function _update(address to, uint256 tokenId, address auth)
         internal
         override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
         returns (address)
@@ -131,16 +110,14 @@ contract DeepLinkCrownNFT is
         return super._update(to, tokenId, auth);
     }
 
-    function _increaseBalance(
-        address account,
-        uint128 value
-    ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+    function _increaseBalance(address account, uint128 value)
+        internal
+        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+    {
         super._increaseBalance(account, value);
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    )
+    function supportsInterface(bytes4 interfaceId)
         public
         view
         override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
@@ -149,9 +126,7 @@ contract DeepLinkCrownNFT is
         return super.supportsInterface(interfaceId);
     }
 
-    function getTokenIdsByAddress(
-        address owner
-    ) external view returns (uint256[] memory) {
+    function getTokenIdsByAddress(address owner) external view returns (uint256[] memory) {
         uint256 balance = balanceOf(owner);
         uint256[] memory tokenIds = new uint256[](balance);
 
@@ -162,9 +137,7 @@ contract DeepLinkCrownNFT is
         return tokenIds;
     }
 
-    function getActiveTokenIdsByAddress(
-        address owner
-    ) external view returns (uint256[] memory) {
+    function getActiveTokenIdsByAddress(address owner) external view returns (uint256[] memory) {
         uint256 balance = balanceOf(owner);
 
         uint256 activeCount;
@@ -187,9 +160,7 @@ contract DeepLinkCrownNFT is
         return tokenIds;
     }
 
-    function _getExpireTime(
-        ExpireTimeType expireTimeType
-    ) internal view returns (uint256) {
+    function _getExpireTime(ExpireTimeType expireTimeType) internal view returns (uint256) {
         // return block.timestamp + 12 * ONE_MONTH;
         if (expireTimeType == ExpireTimeType.OneMonths) {
             return block.timestamp + ONE_MONTH;
@@ -207,12 +178,10 @@ contract DeepLinkCrownNFT is
     }
 
     function _setURIConfig() internal {
-        versionType2URI[
-            VersionType.ProfessionalVersion
-        ] = "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/crownNFT/resource/metadata/1.json";
-        versionType2URI[
-            VersionType.TeamVersion
-        ] = "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/crownNFT/resource/metadata/2.json";
+        versionType2URI[VersionType.ProfessionalVersion] =
+            "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/crownNFT/resource/metadata/1.json";
+        versionType2URI[VersionType.TeamVersion] =
+            "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/crownNFT/resource/metadata/2.json";
     }
 
     function version() public pure returns (uint256) {
